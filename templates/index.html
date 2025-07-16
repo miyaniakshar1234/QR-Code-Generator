@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - By Akshar Miyani</title>
+    <meta name="description" content="Generate QR codes instantly for any text, URL, or data. Created by Akshar Miyani">
+    <meta name="author" content="Akshar Miyani">
+    <meta name="keywords" content="QR Code Generator, QR Code, Generator, Akshar Miyani">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>QR Code Generator</h1>
+            <p>Generate QR codes instantly for any text, URL, or data</p>
+        </header>
+        
+        <div class="generator-section">
+            <div class="input-section">
+                <label for="qr-text">Enter text or URL:</label>
+                <textarea id="qr-text" placeholder="Enter your text, URL, or any data here..." rows="4"></textarea>
+                <button id="generate-btn" onclick="generateQR()">Generate QR Code</button>
+            </div>
+            
+            <div class="output-section">
+                <div id="qr-result" class="qr-container">
+                    <div class="placeholder">
+                        <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+                            <rect width="200" height="200" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="100" y="100" text-anchor="middle" fill="#6c757d" font-size="14">QR Code will appear here</text>
+                        </svg>
+                    </div>
+                </div>
+                <button id="download-btn" onclick="downloadQR()" style="display: none;">Download QR Code</button>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Generating QR Code...</p>
+        </div>
+        
+        <div class="error-message" id="error-message" style="display: none;"></div>
+        
+        <footer class="footer">
+            <p>Created with ❤️ by <strong>Akshar Miyani</strong></p>
+            <div class="contact-info">
+                <a href="mailto:miyaniakshar1234@gmail.com">📧 miyaniakshar1234@gmail.com</a>
+                <a href="tel:+919737160031">📱 +91 97371 60031</a>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

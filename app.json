@@ -1,0 +1,33 @@
+{
+  "name": "QR Code Generator",
+  "description": "A modern, responsive web application for generating QR codes instantly. Created by Akshar Miyani.",
+  "repository": "https://github.com/miyaniakshar1234/qr-code-generator",
+  "logo": "https://cdn-icons-png.flaticon.com/512/714/714392.png",
+  "keywords": [
+    "qr-code",
+    "generator",
+    "flask",
+    "python",
+    "web-app",
+    "akshar-miyani"
+  ],
+  "image": "heroku/python",
+  "addons": [],
+  "env": {
+    "FLASK_ENV": {
+      "description": "Flask environment",
+      "value": "production"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
