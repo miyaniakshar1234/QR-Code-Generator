@@ -8,46 +8,217 @@
     <meta name="author" content="Akshar Miyani">
     <meta name="keywords" content="QR Code Generator, QR Code, Generator, Akshar Miyani">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+
     <div class="container">
-        <header>
-            <h1>QR Code Generator</h1>
-            <p>Generate QR codes instantly for any text, URL, or data</p>
-        </header>
-        
-        <div class="generator-section">
-            <div class="input-section">
-                <label for="qr-text">Enter text or URL:</label>
-                <textarea id="qr-text" placeholder="Enter your text, URL, or any data here..." rows="4"></textarea>
-                <button id="generate-btn" onclick="generateQR()">Generate QR Code</button>
-            </div>
-            
-            <div class="output-section">
-                <div id="qr-result" class="qr-container">
-                    <div class="placeholder">
-                        <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
-                            <rect width="200" height="200" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2" stroke-dasharray="5,5"/>
-                            <text x="100" y="100" text-anchor="middle" fill="#6c757d" font-size="14">QR Code will appear here</text>
-                        </svg>
+        <!-- Modern Header with Glass Effect -->
+        <header class="glass-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div class="header-text">
+                        <h1>QR Code Generator</h1>
+                        <p>Transform any text into beautiful QR codes instantly</p>
                     </div>
                 </div>
-                <button id="download-btn" onclick="downloadQR()" style="display: none;">Download QR Code</button>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="qr-count">0</span>
+                        <span class="stat-label">QR Codes Generated</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Card -->
+        <div class="main-card">
+            <div class="card-header">
+                <h2><i class="fas fa-magic"></i> Create Your QR Code</h2>
+                <p>Enter any text, URL, or data below to generate your custom QR code</p>
+            </div>
+
+            <div class="generator-section">
+                <!-- Enhanced Input Section -->
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="qr-text" class="modern-label">
+                            <i class="fas fa-edit"></i>
+                            What would you like to encode?
+                        </label>
+                        <div class="textarea-wrapper">
+                            <textarea 
+                                id="qr-text" 
+                                placeholder="Enter your text, URL, email, phone number, or any data here..."
+                                rows="4"
+                                maxlength="2000"
+                            ></textarea>
+                            <div class="char-counter">
+                                <span id="char-count">0</span>/2000
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Templates -->
+                    <div class="quick-templates">
+                        <h4><i class="fas fa-bolt"></i> Quick Templates</h4>
+                        <div class="template-buttons">
+                            <button class="template-btn" data-template="url">
+                                <i class="fas fa-link"></i> Website URL
+                            </button>
+                            <button class="template-btn" data-template="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </button>
+                            <button class="template-btn" data-template="phone">
+                                <i class="fas fa-phone"></i> Phone
+                            </button>
+                            <button class="template-btn" data-template="wifi">
+                                <i class="fas fa-wifi"></i> WiFi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button id="generate-btn" class="modern-btn primary" onclick="generateQR()">
+                        <span class="btn-content">
+                            <i class="fas fa-qrcode"></i>
+                            <span class="btn-text">Generate QR Code</span>
+                        </span>
+                        <div class="btn-ripple"></div>
+                    </button>
+                </div>
+
+                <!-- Enhanced Output Section -->
+                <div class="output-section">
+                    <div class="qr-display-card">
+                        <div class="card-title">
+                            <h3><i class="fas fa-image"></i> Your QR Code</h3>
+                            <div class="qr-actions" id="qr-actions" style="display: none;">
+                                <button class="action-btn" onclick="downloadQR()" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="action-btn" onclick="shareQR()" title="Share">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="action-btn" onclick="copyQRLink()" title="Copy Link">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="qr-result" class="qr-container">
+                            <div class="placeholder">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-qrcode"></i>
+                                </div>
+                                <h4>Ready to Generate</h4>
+                                <p>Your QR code will appear here</p>
+                            </div>
+                        </div>
+
+                        <!-- QR Code Info -->
+                        <div class="qr-info" id="qr-info" style="display: none;">
+                            <div class="info-item">
+                                <span class="info-label">Size:</span>
+                                <span class="info-value" id="qr-size">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Format:</span>
+                                <span class="info-value">PNG</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Created:</span>
+                                <span class="info-value" id="qr-time">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="loading" id="loading" style="display: none;">
-            <div class="spinner"></div>
-            <p>Generating QR Code...</p>
+
+        <!-- Enhanced Loading Animation -->
+        <div class="modern-loading" id="loading" style="display: none;">
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                </div>
+                <h3>Generating QR Code</h3>
+                <p>Creating your personalized QR code...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
         </div>
-        
-        <div class="error-message" id="error-message" style="display: none;"></div>
-        
-        <footer class="footer">
-            <p>Created with ❤️ by <strong>Akshar Miyani</strong></p>
-            <div class="contact-info">
-                <a href="mailto:miyaniakshar1234@gmail.com">📧 miyaniakshar1234@gmail.com</a>
-                <a href="tel:+919737160031">📱 +91 97371 60031</a>
+
+        <!-- Modern Error Message -->
+        <div class="modern-error" id="error-message" style="display: none;">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="error-text">
+                    <h4>Oops! Something went wrong</h4>
+                    <p id="error-text"></p>
+                </div>
+                <button class="error-close" onclick="hideError()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Toast -->
+        <div class="toast success" id="success-toast" style="display: none;">
+            <div class="toast-content">
+                <i class="fas fa-check-circle"></i>
+                <span>QR Code generated successfully!</span>
+            </div>
+        </div>
+
+        <!-- Enhanced Footer -->
+        <footer class="modern-footer">
+            <div class="footer-content">
+                <div class="creator-info">
+                    <div class="creator-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="creator-details">
+                        <h4>Created with <i class="fas fa-heart"></i> by Akshar Miyani</h4>
+                        <p>Full Stack Developer & QR Code Enthusiast</p>
+                    </div>
+                </div>
+                <div class="contact-links">
+                    <a href="mailto:miyaniakshar1234@gmail.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="tel:+919737160031" class="contact-link">
+                        <i class="fas fa-phone"></i>
+                        <span>Call</span>
+                    </a>
+                    <a href="https://github.com/miyaniakshar1234" class="contact-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Akshar Miyani. All rights reserved.</p>
             </div>
         </footer>
     </div>
