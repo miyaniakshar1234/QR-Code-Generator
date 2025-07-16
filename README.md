@@ -50,7 +50,7 @@ QR_Code/
 ### Step 1: Clone or Download the Project
 ```cmd
 # If using git
-git clone <repository-url>
+git clone https://github.com/miyaniakshar1234/QR-Code-Generator.git
 cd QR_Code
 
 # Or download and extract the project files
